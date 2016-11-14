@@ -71,13 +71,24 @@ $(function() {
     });
 
     describe('Initial Entries', function () {
+        var feed = document.getElementsByClassName('feed')[0];
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+        beforeEach(function (done) {
+            // Load the default feed (the first one)
+            loadFeed(0, done);
+        });
+
+        it('are populated in the feed container', function () {
+            expect(feed.childElementCount).toBeGreaterThan(0);
+        });
+
+        it('populates an .entry-link in .feed', function () {
+            expect(feed.children[0].className).toBe('entry-link');
+        });
+
+        it('populates an .entry in .entry-link', function () {
+            expect(feed.children[0].children[0].className).toBe('entry');
+        });
     });
 
     /* TODO: Write a new test suite named "New Feed Selection"
