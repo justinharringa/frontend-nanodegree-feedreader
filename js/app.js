@@ -29,7 +29,26 @@ var allFeeds = [
  */
 function init() {
     // Load the first feed we've defined (index of 0).
-    loadFeed(0);
+    loadFeedFromArray(allFeeds, 0);
+}
+
+function loadFeedFromArray(feedArray, index, cb) {
+    var feed = getFeedFromArray(feedArray, index);
+    loadFeed(feed, cb);
+}
+
+/* This function gets a cleansed feed from an array of feeds.
+ * It will return a null if index is out of bounds.
+ */
+function getFeedFromArray(feeds, index) {
+    if (index >= feeds.length || index < 0) {
+        return null;
+    }
+    var feed = feeds[index];
+    if (feed.name === undefined && feed.url) {
+        feed.name = feed.url;
+    }
+    return feed;
 }
 
 /* This function performs everything necessary to load a
@@ -40,10 +59,10 @@ function init() {
  * This function all supports a callback as the second parameter
  * which will be called after everything has run successfully.
  */
- function loadFeed(id, cb) {
-     if (id < allFeeds.length && allFeeds[id].url) {
-         var feedUrl = allFeeds[id].url,
-             feedName = allFeeds[id].name;
+ function loadFeed(feed, cb) {
+     if (feed && feed.url) {
+         var feedUrl = feed.url,
+             feedName = feed.name;
 
          $.ajax({
              type: "POST",
@@ -87,7 +106,7 @@ function init() {
              error = {message: ''},
              entryTemplate = Handlebars.compile($('.tpl-error').html());
 
-         if (id >= allFeeds.length) {
+         if (!feed) {
              error.message = 'You attempted to access an undefined feed.';
          }
          container.empty();
@@ -137,7 +156,7 @@ $(function() {
         var item = $(this);
 
         $('body').addClass('menu-hidden');
-        loadFeed(item.data('id'));
+        loadFeedFromArray(allFeeds, item.data('id'));
         return false;
     });
 
