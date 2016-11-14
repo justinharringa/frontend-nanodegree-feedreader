@@ -131,6 +131,9 @@ $(function() {
         var testFeeds = [
             {
                 url: 'http://blog.udacity.com/feed'
+            },
+            {
+                name: 'Undefined URL'
             }
         ];
 
@@ -144,6 +147,10 @@ $(function() {
 
         it('name should become url', function () {
             expect(getFeedFromArray(testFeeds, 0).name).toBe(testFeeds[0].url);
+        });
+
+        it('url should return a null feed', function () {
+            expect(getFeedFromArray(testFeeds, 1)).toBeNull();
         });
     });
 }());

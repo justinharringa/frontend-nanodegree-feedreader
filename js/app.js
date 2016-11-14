@@ -32,6 +32,10 @@ function init() {
     loadFeedFromArray(allFeeds, 0);
 }
 
+/* This function will fetch a feed from the feedArray and then load
+ * it using the loadFeed(feed, cb) function. The optional cb will be called
+ * according to the rules described in loadFeed(feed, cb)
+ */
 function loadFeedFromArray(feedArray, index, cb) {
     var feed = getFeedFromArray(feedArray, index);
     loadFeed(feed, cb);
@@ -39,13 +43,16 @@ function loadFeedFromArray(feedArray, index, cb) {
 
 /* This function gets a cleansed feed from an array of feeds.
  * It will return a null if index is out of bounds.
+ * This is a helper function for loadFeedFromArray(feedArray, index, cb)
  */
 function getFeedFromArray(feeds, index) {
     if (index >= feeds.length || index < 0) {
         return null;
     }
     var feed = feeds[index];
-    if (feed.name === undefined && feed.url) {
+    if (!feed.url) {
+        return null;
+    } else if (feed.name === undefined) {
         feed.name = feed.url;
     }
     return feed;
