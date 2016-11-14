@@ -9,7 +9,7 @@ their own company and we're now left with an application with an
 incomplete test suite. That's where you come in.
 
 ## Running the project
-Simply open up index.html in the browser to see the application run and
+Simply open up index.html in your browser to see the application run and
 to see the Jasmine test results. 
 
 Note: While it'd be nice to automate this I decided not to for this 
