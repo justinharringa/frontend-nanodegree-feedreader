@@ -92,10 +92,26 @@ $(function() {
     });
 
     describe('New Feed Selection', function () {
+        var feed = document.getElementsByClassName('feed')[0];
+        var urlFromFirstEntryOfInitialFeed;
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        beforeEach(function (done) {
+            // 1. Load the default feed (the first one)
+            // 2. Store the first child URL
+            // 3. Then call the done() callback for our tests to run
+            loadFeed(0, function () {
+                urlFromFirstEntryOfInitialFeed = feed.children[0].href;
+                loadFeed(1, done)
+            });
+        });
+
+        it('should have a new first entry url after loading a new feed', function () {
+            expect(feed.children[0].href).not.toBe(urlFromFirstEntryOfInitialFeed);
+        });
+
+        afterEach(function (done) {
+            // Probably not necessary, but reset back to first feed
+            loadFeed(0, done);
+        });
     });
 }());
