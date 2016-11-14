@@ -29,33 +29,7 @@ var allFeeds = [
  */
 function init() {
     // Load the first feed we've defined (index of 0).
-    loadFeedFromArray(allFeeds, 0);
-}
-
-/* This function will fetch a feed from the feedArray and then load
- * it using the loadFeed(feed, cb) function. The optional cb will be called
- * according to the rules described in loadFeed(feed, cb)
- */
-function loadFeedFromArray(feedArray, index, cb) {
-    var feed = getFeedFromArray(feedArray, index);
-    loadFeed(feed, cb);
-}
-
-/* This function gets a cleansed feed from an array of feeds.
- * It will return a null if index is out of bounds.
- * This is a helper function for loadFeedFromArray(feedArray, index, cb)
- */
-function getFeedFromArray(feeds, index) {
-    if (index >= feeds.length || index < 0) {
-        return null;
-    }
-    var feed = feeds[index];
-    if (!feed.url) {
-        return null;
-    } else if (feed.name === undefined) {
-        feed.name = feed.url;
-    }
-    return feed;
+    loadFeed(0);
 }
 
 /* This function performs everything necessary to load a
@@ -66,17 +40,16 @@ function getFeedFromArray(feeds, index) {
  * This function all supports a callback as the second parameter
  * which will be called after everything has run successfully.
  */
- function loadFeed(feed, cb) {
-     if (feed) {
-         var feedUrl = feed.url,
-             feedName = feed.name;
+ function loadFeed(id, cb) {
+     var feedUrl = allFeeds[id].url,
+         feedName = allFeeds[id].name;
 
-         $.ajax({
-             type: "POST",
-             url: 'https://rsstojson.udacity.com/parseFeed',
-             data: JSON.stringify({url: feedUrl}),
-             contentType:"application/json",
-             success: function (result, status){
+     $.ajax({
+       type: "POST",
+       url: 'https://rsstojson.udacity.com/parseFeed',
+       data: JSON.stringify({url: feedUrl}),
+       contentType:"application/json",
+       success: function (result, status){
 
                  var container = $('.feed'),
                      title = $('.header-title'),
@@ -99,27 +72,15 @@ function getFeedFromArray(feeds, index) {
                  if (cb) {
                      cb();
                  }
-             },
-             error: function (result, status, err){
+               },
+       error: function (result, status, err){
                  //run only the callback without attempting to parse result due to error
                  if (cb) {
                      cb();
                  }
-             },
-             dataType: "json"
-         });
-     } else {
-         var container = $('.feed'),
-             error = {message: 'You attempted to access an undefined feed.'},
-             entryTemplate = Handlebars.compile($('.tpl-error').html());
-
-         container.empty();
-         container.append(entryTemplate(error));
-
-         if (cb) {
-             cb();
-         }
-     }
+               },
+       dataType: "json"
+     });
  }
 
 /* Google API: Loads the Feed Reader API and defines what function
@@ -160,7 +121,7 @@ $(function() {
         var item = $(this);
 
         $('body').addClass('menu-hidden');
-        loadFeedFromArray(allFeeds, item.data('id'));
+        loadFeed(item.data('id'));
         return false;
     });
 

@@ -75,7 +75,7 @@ $(function() {
 
         beforeEach(function (done) {
             // Load the default feed (the first one)
-            loadFeedFromArray(allFeeds, 0, done);
+            loadFeed(0, done);
         });
 
         it('are populated in the feed container', function () {
@@ -99,9 +99,9 @@ $(function() {
             // 1. Load the default feed (the first one)
             // 2. Store the first child URL
             // 3. Then call the done() callback for our tests to run
-            loadFeedFromArray(allFeeds, 0, function () {
+            loadFeed(0, function () {
                 urlFromFirstEntryOfInitialFeed = feed.children[0].href;
-                loadFeedFromArray(allFeeds, 1, done)
+                loadFeed(1, done)
             });
         });
 
@@ -111,50 +111,7 @@ $(function() {
 
         afterEach(function (done) {
             // Probably not necessary, but reset back to first feed
-            loadFeedFromArray(allFeeds, 0, done);
-        });
-    });
-
-    describe('Null feed', function () {
-        var feed = document.getElementsByClassName('feed')[0];
-        beforeEach(function (done) {
-            // allFeeds.length would be just out of bounds
-            loadFeed(null, done);
-        });
-
-        it('should show an error', function () {
-            expect(feed.children[0].textContent).toBe('You attempted to access an undefined feed.');
-        });
-
-        afterAll(function (done) {
-            loadFeedFromArray(allFeeds, 0, done)
-        });
-    });
-
-    describe('Undefined', function () {
-        var testFeeds = [
-            {
-                url: 'http://blog.udacity.com/feed'
-            },
-            {
-                name: 'Undefined URL'
-            }
-        ];
-
-        it('feed above array index should be null', function () {
-            expect(getFeedFromArray(testFeeds, testFeeds.length)).toBeNull();
-        });
-
-        it('feed below array index should be null', function () {
-            expect(getFeedFromArray(testFeeds, -42)).toBeNull();
-        });
-
-        it('name should become url', function () {
-            expect(getFeedFromArray(testFeeds, 0).name).toBe(testFeeds[0].url);
-        });
-
-        it('url should return a null feed', function () {
-            expect(getFeedFromArray(testFeeds, 1)).toBeNull();
+            loadFeed(0, done);
         });
     });
 }());
