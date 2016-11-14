@@ -14,42 +14,42 @@ $(function() {
     * feeds definitions, the allFeeds variable in our application.
     */
     describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
+        /**
+         * URL tests
+         * NOTE: I prefer separate atomic tests to tell me exactly what is wrong. While it can result in a little
+         * extra boilerplate, it also can tell me right away when something is wrong and WHAT is wrong
          */
         it('have a URL defined', function () {
             allFeeds.forEach(function (feed) {
-                console.log(feed);
                 expect(feed.url).toBeDefined();
             });
         });
 
         it('have a non-empty URL', function () {
             allFeeds.forEach(function (feed) {
-                console.log(feed);
                 expect(feed.url).not.toBe('');
             });
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
+        /**
+         * Name tests
          */
+        it('have a name defined', function () {
+            allFeeds.forEach(function (feed) {
+                expect(feed.name).toBeDefined();
+            });
+        });
+
+        it('have a non-empty name', function () {
+            allFeeds.forEach(function (feed) {
+                expect(feed.name).not.toBe('');
+            });
+        });
     });
 
 
