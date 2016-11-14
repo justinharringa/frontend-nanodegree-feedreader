@@ -41,15 +41,16 @@ function init() {
  * which will be called after everything has run successfully.
  */
  function loadFeed(id, cb) {
-     var feedUrl = allFeeds[id].url,
-         feedName = allFeeds[id].name;
+     if (id < allFeeds.length && allFeeds[id].url) {
+         var feedUrl = allFeeds[id].url,
+             feedName = allFeeds[id].name;
 
-     $.ajax({
-       type: "POST",
-       url: 'https://rsstojson.udacity.com/parseFeed',
-       data: JSON.stringify({url: feedUrl}),
-       contentType:"application/json",
-       success: function (result, status){
+         $.ajax({
+             type: "POST",
+             url: 'https://rsstojson.udacity.com/parseFeed',
+             data: JSON.stringify({url: feedUrl}),
+             contentType:"application/json",
+             success: function (result, status){
 
                  var container = $('.feed'),
                      title = $('.header-title'),
@@ -72,15 +73,30 @@ function init() {
                  if (cb) {
                      cb();
                  }
-               },
-       error: function (result, status, err){
+             },
+             error: function (result, status, err){
                  //run only the callback without attempting to parse result due to error
                  if (cb) {
                      cb();
                  }
-               },
-       dataType: "json"
-     });
+             },
+             dataType: "json"
+         });
+     } else {
+         var container = $('.feed'),
+             error = {message: ''},
+             entryTemplate = Handlebars.compile($('.tpl-error').html());
+
+         if (id >= allFeeds.length) {
+             error.message = 'You attempted to access an undefined feed.';
+         }
+         container.empty();
+         container.append(entryTemplate(error));
+
+         if (cb) {
+             cb();
+         }
+     }
  }
 
 /* Google API: Loads the Feed Reader API and defines what function

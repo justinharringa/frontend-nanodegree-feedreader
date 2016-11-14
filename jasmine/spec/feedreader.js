@@ -114,4 +114,15 @@ $(function() {
             loadFeed(0, done);
         });
     });
+
+    describe('Out-of-bound array access to allFeeds', function () {
+        var feed = document.getElementsByClassName('feed')[0];
+        beforeEach(function (done) {
+            loadFeed(100, done);
+        });
+
+        it('should show an error', function () {
+            expect(feed.children[0].textContent).toBe('You attempted to access an undefined feed.');
+        });
+    });
 }());
