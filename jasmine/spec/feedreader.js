@@ -56,17 +56,19 @@ $(function() {
     });
 
     describe('The menu', function() {
+        var hiddenMenuClass = 'menu-hidden';
+
         it('is hidden by default', function () {
-            expect(document.body.className).toBe('menu-hidden');
+            expect(document.body.classList).toContain(hiddenMenuClass);
         });
 
         it('opens and closes when clicked', function () {
             var menu = $('.menu-icon-link');
             var body = document.body;
             menu.click();
-            expect(body.className).toBe('');
+            expect(body.classList).not.toContain(hiddenMenuClass);
             menu.click();
-            expect(body.className).toBe('menu-hidden');
+            expect(body.classList).toContain(hiddenMenuClass);
         });
     });
 
@@ -101,17 +103,12 @@ $(function() {
             // 3. Then call the done() callback for our tests to run
             loadFeed(0, function () {
                 urlFromFirstEntryOfInitialFeed = feed.children[0].href;
-                loadFeed(1, done)
+                loadFeed(1, done);
             });
         });
 
         it('should have a new first entry url after loading a new feed', function () {
             expect(feed.children[0].href).not.toBe(urlFromFirstEntryOfInitialFeed);
-        });
-
-        afterEach(function (done) {
-            // Probably not necessary, but reset back to first feed
-            loadFeed(0, done);
         });
     });
 }());
