@@ -67,7 +67,7 @@ function getFeedFromArray(feeds, index) {
  * which will be called after everything has run successfully.
  */
  function loadFeed(feed, cb) {
-     if (feed && feed.url) {
+     if (feed) {
          var feedUrl = feed.url,
              feedName = feed.name;
 
@@ -110,12 +110,9 @@ function getFeedFromArray(feeds, index) {
          });
      } else {
          var container = $('.feed'),
-             error = {message: ''},
+             error = {message: 'You attempted to access an undefined feed.'},
              entryTemplate = Handlebars.compile($('.tpl-error').html());
 
-         if (!feed) {
-             error.message = 'You attempted to access an undefined feed.';
-         }
          container.empty();
          container.append(entryTemplate(error));
 

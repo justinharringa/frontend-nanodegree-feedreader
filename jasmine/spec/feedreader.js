@@ -115,15 +115,19 @@ $(function() {
         });
     });
 
-    describe('Out-of-bound array access to allFeeds', function () {
+    describe('Null feed', function () {
         var feed = document.getElementsByClassName('feed')[0];
         beforeEach(function (done) {
             // allFeeds.length would be just out of bounds
-            loadFeedFromArray(allFeeds, allFeeds.length, done);
+            loadFeed(null, done);
         });
 
         it('should show an error', function () {
             expect(feed.children[0].textContent).toBe('You attempted to access an undefined feed.');
+        });
+
+        afterAll(function (done) {
+            loadFeedFromArray(allFeeds, 0, done)
         });
     });
 
