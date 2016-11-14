@@ -9,20 +9,23 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+    /**
+     * RSS Feeds
+     *
+     * NOTE: I prefer separate atomic tests to tell me exactly what is wrong. While it can result in a little
+     * extra boilerplate, it also can tell me right away when something is wrong and WHAT is wrong
+     */
     describe('RSS Feeds', function() {
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
+        });
+
+        it('are not empty', function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
         /**
          * URL tests
-         * NOTE: I prefer separate atomic tests to tell me exactly what is wrong. While it can result in a little
-         * extra boilerplate, it also can tell me right away when something is wrong and WHAT is wrong
          */
         it('have a URL defined', function () {
             allFeeds.forEach(function (feed) {
@@ -52,8 +55,7 @@ $(function() {
         });
     });
 
-
-    /* TODO: Write a new test suite named "The menu" */
+    describe('The menu', function() {
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -66,6 +68,7 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+    });
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
