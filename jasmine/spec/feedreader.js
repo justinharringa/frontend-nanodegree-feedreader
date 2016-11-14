@@ -60,11 +60,14 @@ $(function() {
             expect(document.body.className).toBe('menu-hidden');
         });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+        it('opens and closes when clicked', function () {
+            var menu = $('.menu-icon-link');
+            var body = document.body;
+            menu.click();
+            expect(body.className).toBe('');
+            menu.click();
+            expect(body.className).toBe('menu-hidden');
+        });
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
